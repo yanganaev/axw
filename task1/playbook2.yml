@@ -1,0 +1,30 @@
+#####################################
+# 2. Ansible Basics Practice Task 1 #
+#####################################
+---
+- hosts: nodes
+  tasks:
+  - name: "Removing httpd service"
+    yum:
+      name: httpd
+      state: absent
+  - name: "Deleting a file index.html"
+    file:
+      path: /var/www/html/index.html
+      state: absent
+  - name: "Looking for installation of firewalld"
+    yum:
+      name: firewalld
+      state: present
+  - name: "Closing port 80"
+    firewalld:
+      service: http
+      permanent: true
+      state: disabled
+    notify:
+    - Restart firewalld
+  handlers: 
+   - name: "Restart firewalld"
+     service: 
+       name: firewalld 
+       state: restarted

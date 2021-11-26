@@ -1,0 +1,28 @@
+#####################################
+# 1. Ansible Basics Practice Task 1 #
+#####################################
+---
+- name: "This sets up an httpd webserver"
+  hosts: nodes
+  tasks:
+  - name: "Install apache packages"
+    yum:
+      name: httpd
+      state: present
+  - name: "Ensure httpd is running"
+    service:
+      name: httpd
+      state: started
+  - name: "Creating a file with content"
+    copy:
+      dest: /var/www/html/index.html
+      content: 'Welcome to my web server'
+  - name: "Open port 80 for http access"
+    firewalld:
+      service: http
+      permanent: true
+      state: enabled
+  - name: "Restart the firewalld service to load in the firewall changes"
+    service:
+      name: firewalld
+      state: restarted

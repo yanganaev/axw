@@ -1,0 +1,30 @@
+#####################################
+# 3. Ansible Basics Practice Task 1 #
+#####################################
+---
+- hosts: nodes
+  vars:
+   grub_path: /etc/default/grub
+  tasks:
+  - name: "Stripping already existing parameters biosdevname and net.ifnames from /etc/default/grub" 
+    lineinfile:
+      path: "{{grub_path}}"
+      state: present
+      regexp: (GRUB_CMDLINE_LINUX=\".*?)(\s*{{ item }}=\d+)(.*\")$
+      line: '\g<1>\g<3>'
+      backrefs: yes
+    loop:
+      - biosdevname
+      - net\.ifnames
+  - name: "Adding parameters"
+    lineinfile:
+      path: "{{grub_path}}"
+      state: present
+      regexp: '^(GRUB_CMDLINE_LINUX=\".*)(\")$'
+      line: '\g<1> {{ item }}\g<2>'
+      backrefs: yes
+    loop:
+      - biosdevname=0
+      - net.ifnames=0
+  - name: "Saving new grub configuration"
+    command: grub2-mkconfig -o /boot/grub2/grub.cfg
