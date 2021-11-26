@@ -3,7 +3,7 @@
 #####################################
 ---
 - name: "This sets up an httpd webserver"
-  hosts: nodes
+  hosts: all
   tasks:
   - name: "Install apache packages"
     yum:
