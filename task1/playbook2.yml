@@ -2,7 +2,7 @@
 # 2. Ansible Basics Practice Task 1 #
 #####################################
 ---
-- hosts: nodes
+- hosts: all
   tasks:
   - name: "Removing httpd service"
     yum:
