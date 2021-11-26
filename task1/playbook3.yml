@@ -2,7 +2,7 @@
 # 3. Ansible Basics Practice Task 1 #
 #####################################
 ---
-- hosts: nodes
+- hosts: all
   vars:
    grub_path: /etc/default/grub
   tasks:
